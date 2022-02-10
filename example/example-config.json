@@ -1,0 +1,15 @@
+{
+    "size": 6,
+    "square": true,
+    "border": true,
+    "vertical": false,
+    "invert": false,
+    "symmetric": true,
+
+    "save": true,
+    "fg": "00c3ff",
+    "bg": "002530",
+    "image-size": "X",
+    "save-dir": "$HOME/Downloads",
+    "image-portrait": false
+}
