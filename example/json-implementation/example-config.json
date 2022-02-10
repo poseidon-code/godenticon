@@ -1,0 +1,15 @@
+{
+    "size": 8,
+    "square": false,
+    "border": true,
+    "vertical": false,
+    "invert": false,
+    "symmetric": false,
+
+    "save": true,
+    "fg": "00c3ff",
+    "bg": "002530",
+    "image-size": "X",
+    "save-dir": "/home/poseidon/Downloads",
+    "image-portrait": false
+}
