@@ -2,6 +2,9 @@ package godenticon
 
 import "fmt"
 
+// Printing the Identicon.Matrix to the terminal.
+// Identicon.IdenticonOptions.Border (bool) is used to determine whether
+// to print the identicon with/without border.
 func (i *Identicon) Print() {
     w, h := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)
     m := i.Matrix
