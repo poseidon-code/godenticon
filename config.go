@@ -8,7 +8,7 @@ import (
 )
 
 // Read, Check & Set configurations from a JSON config file.
-// Sets booth Identicon.IdenticonOptions & Identicon.ImageOptions
+// Sets both Identicon.IdenticonOptions & Identicon.ImageOptions
 // requires: absolute/relative path of the JSON file.
 func (i *Identicon) ReadConfiguration(path string) {
     f, err := os.Open(path)
