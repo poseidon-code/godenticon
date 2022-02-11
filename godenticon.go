@@ -30,10 +30,20 @@ type ImageConfiguration struct {
 
 type IdenticonIF interface {
     // Sets Identicon.IdenticonOptions & Identicon.ImageOptions
-    // using default values specified as variables in 'defaults.go' -
+    // using default values specified as variables -
     // IdenticonDefaultOptions & ImageDefaultOptions for 
     // identicon & image respectively.
     UseDefaultConfiguration()
+
+    // Read, Check & Set configurations from a JSON config file.
+    // Sets both Identicon.IdenticonOptions & Identicon.ImageOptions
+    // requires: absolute/relative path of the JSON file.
+    ReadConfiguration(path string)
+
+    // Check for errors in configurations.
+    // Applies to IdenticonConfiguration, ImageConfiguration
+    // and Identicon types.
+    CheckConfiguration()
 
     // Sets Identicon.Hash, Indenticon.Width & Identicon.Height
     // based on Identicon.IdenticonOptions.Square (bool).
@@ -61,15 +71,4 @@ type IdenticonIF interface {
     // Identicon.IdenticonOptions.Border (bool) is used to determine whether
     // to print the identicon with/without border.
     Print()
-}
-
-
-type ConfigurationIF interface {
-    // Read & Set configurations from JSON file.
-    // Applies to both IdenticonConfiguration & ImageConfiguration
-    ReadConfiguration(path string)
-
-    // Check for errors in configurations.
-    // Applies to both IdenticonConfiguration & ImageConfiguration
-    CheckConfiguration()
 }

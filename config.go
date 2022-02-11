@@ -7,15 +7,32 @@ import (
 	"os"
 )
 
-// Sets Identicon.IdenticonOptions from JSON config file
-func (o *IdenticonConfiguration) ReadConfiguration(path string) {
-    f, _ := os.Open(path); defer f.Close()
+// Read, Check & Set configurations from a JSON config file.
+// Sets booth Identicon.IdenticonOptions & Identicon.ImageOptions
+// requires: absolute/relative path of the JSON file.
+func (i *Identicon) ReadConfiguration(path string) {
+    f, err := os.Open(path)
+    if err!=nil {
+        fmt.Println("Invalid config file path :", path)
+        f.Close()
+        os.Exit(1)
+    }
     b, _ := ioutil.ReadAll(f)
-    *o = IdenticonDefaultOptions
-    json.Unmarshal(b, &o)
+    f.Close()
+
+    identicon_o := IdenticonDefaultOptions
+    json.Unmarshal(b, &identicon_o)
+    identicon_o.CheckConfiguration()
+    
+    image_o := ImageDefaultOptions
+    json.Unmarshal(b, &image_o)
+    image_o.CheckConfiguration()
+
+    i.IdenticonOptions = identicon_o
+    i.ImageOptions = image_o
 }
 
-// Check Identicon.IdenticonOptions for error
+// Checks Identicon.IdenticonOptions for errors
 func (o *IdenticonConfiguration) CheckConfiguration() {
     if o.Size<4 || o.Size>8 {
         fmt.Println("Invalid identicon size :", o.Size)
@@ -24,15 +41,7 @@ func (o *IdenticonConfiguration) CheckConfiguration() {
     }
 }
 
-// Sets Identicon.ImageOptions from JSON config file
-func (o *ImageConfiguration) ReadConfiguration(path string) {
-    f, _ := os.Open(path); defer f.Close()
-    b, _ := ioutil.ReadAll(f)
-    *o = ImageDefaultOptions
-    json.Unmarshal(b, &o)
-}
-
-// Check Identicon.ImageOptions for error
+// Checks Identicon.ImageOptions for errors
 func (o *ImageConfiguration) CheckConfiguration() {
     if o.Size!="S" && o.Size!="M" && o.Size!="L" && o.Size!="X" {
         fmt.Println("Invalid image size :", o.Size)
@@ -61,6 +70,24 @@ func (o *ImageConfiguration) CheckConfiguration() {
     }
 }
 
+// Checks both Identicon.IdenticonOptions & Identicon.ImageOptions
+// altogether for errors (kind of an One-Time function call).
+// 
+// When both Identicon.IdenticonOptions & Identicon.ImageOptions
+// were already set by any means, then use this function directly
+// instead of seperately calling Identicon.IdenticonOptions.CheckConfiguration()
+// and Identicon.ImageOptions.CheckConfiguration(), to check for errors.
+// 
+// i.e.: Identicon.CheckConfiguration()
+func (i *Identicon) CheckConfiguration() {
+    i.IdenticonOptions.CheckConfiguration()
+    i.ImageOptions.CheckConfiguration()
+}
+
+// Sets Identicon.IdenticonOptions & Identicon.ImageOptions
+// using default values specified as variables -
+// IdenticonDefaultOptions & ImageDefaultOptions for 
+// identicon & image respectively.
 func (i *Identicon) UseDefaultConfiguration() {
     i.IdenticonOptions  = IdenticonDefaultOptions
     i.ImageOptions      = ImageDefaultOptions
