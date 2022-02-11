@@ -43,7 +43,15 @@ func (i *Identicon) generate_asymmetric_matrix(bit_0, bit_1 int) {
     i.Matrix = m
 }
 
-
+// Sets Identicon.Matrix based on some Identicon.IdenticonOptions.
+// Uses IdenticonConfiguration.Vertical (bool), IdenticonConfiguration.Invert (bool)
+// & IdenticonConfiguration.Symmetric (bool) to generate 8 different types of
+// matrices.
+// 
+// Combinations:
+// vertical-inverted-symmetric, vertical-inverted-asymmetric, vertical-original-symmetric
+// vertical-original-asymmetric, horizontal-inverted-symmetric, horizontal-inverted-asymmetric
+// horizontal-original-symmetric, horizontal-original-asymmetric
 func (i *Identicon) GenerateMatrix() {
     // bits for matrix cell filling
     bit_0, bit_1 := 0, 1

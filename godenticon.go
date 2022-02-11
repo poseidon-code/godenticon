@@ -36,8 +36,8 @@ type IdenticonIF interface {
     UseDefaultConfiguration()
 
     // Read, Check & Set configurations from a JSON config file.
-    // Sets both Identicon.IdenticonOptions & Identicon.ImageOptions
-    // requires: absolute/relative path of the JSON file.
+    // Sets both Identicon.IdenticonOptions & Identicon.ImageOptions.
+    // (requires: absolute/relative path of the JSON file)
     ReadConfiguration(path string)
 
     // Check for errors in configurations.

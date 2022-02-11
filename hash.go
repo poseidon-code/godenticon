@@ -20,6 +20,16 @@ func (i *Identicon) wide_hashing() {
     i.Height    = 1
 }
 
+// Sets Identicon.Hash, Indenticon.Width & Identicon.Height
+// based on Identicon.IdenticonOptions.Square (bool).
+// 
+// if: Identicon.IdenticonOptions.Square == TRUE, then
+// generate(set) Identicon.Hash suitable for square (1:1) aspect ratios
+// and set Identicon.Width, Identicon.Height = 1, 1
+// 
+// else:
+// generate(set) Identicon.Hash suitable for wide (2:1) aspect ratios
+// and set Identicon.Width, Identicon.Height = 2, 1
 func (i *Identicon) GenerateHash() {
     if i.IdenticonOptions.Square {
         i.square_hashing()
