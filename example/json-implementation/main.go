@@ -4,12 +4,9 @@ import gi "github.com/poseidon-code/godenticon"
 
 func main() {
     var i gi.Identicon
-    var o gi.IdenticonConfiguration
 
-    o.ReadConfiguration("./example-config.json")
-    o.CheckConfiguration()
+    i.ReadConfiguration("./example-config.json")
 
-    i.IdenticonOptions = o
     i.Text = "json config example"
 
     i.GenerateHash()
