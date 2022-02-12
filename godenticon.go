@@ -1,5 +1,11 @@
 package godenticon
 
+import (
+	"os"
+	"path/filepath"
+	"strings"
+)
+
 type Identicon struct {
     IdenticonOptions        IdenticonConfiguration
     ImageOptions            ImageConfiguration
@@ -71,4 +77,48 @@ type IdenticonIF interface {
     // Identicon.IdenticonOptions.Border (bool) is used to determine whether
     // to print the identicon with/without border.
     Print()
+
+    SaveImage(path string)
+
+    // Creates and saves an identicon as SVG. Requires a `path` variable
+    // to be passed, as a SVG saving directory or name. Size of the SVG
+    // identicon depends on the Cell Size of every block in the identicon,
+    // which is currently hardcoded to 100 units.
+    SaveSVG(path string)
+}
+
+
+func handle_save_path(path, t string) (save string) {
+    d, n := filepath.Split(path)
+
+    if len(d)==0 && len(n)==0 {
+        // if no `path` was provided i.e.: path=""
+        d = "./"
+        n = t+".svg"
+    }
+
+    if len(d)==0 {
+        // directory is not provided with the `path`
+        // use base relative directory
+        d = "./"
+    }
+
+    if len(n)==0 || (len(n)==1 && string(n[0])==".") {
+        // file name is not provided with the `path`
+        // OR, file name is "."
+        // use `directory + Identicon.Text`
+        n = t+".svg"
+    }
+
+    // file name has wrong extension
+    // i.e.: file extension is anything other than `.svg`
+    fn := strings.Split(n, ".")
+    if len(n)!=0 && fn[len(fn)-1]!="svg" {
+        // check & sanitize file extension with `.svg`
+        n = strings.Join(fn[:len(fn)-1], "_")+".svg"
+    }
+
+    os.MkdirAll(d, os.ModePerm)
+    save = d+n
+    return save
 }

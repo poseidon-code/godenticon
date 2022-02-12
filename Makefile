@@ -21,6 +21,7 @@ tidy:
 	@go mod tidy
 	@printf "\033[32;1m»\033[0m Finished\n"
 
+
 publish:
 	git tag $(VERSION)
 	git push origin $(VERSION)

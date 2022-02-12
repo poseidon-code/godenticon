@@ -1,0 +1,46 @@
+package godenticon
+
+import (
+	"fmt"
+	"os"
+)
+
+// Creates and saves an identicon as SVG. Requires a `path` variable
+// to be passed, as a SVG saving directory or name. Size of the SVG
+// identicon depends on the Cell Size of every block in the identicon,
+// which is currently hardcoded to 100 units.
+func (i *Identicon) SaveSVG(path string) {
+    b   := 100      // identicon block size
+    bw  := 0        // border(stroke) width(thickness)
+    ip  := 0        // identicon padding (when using border)
+
+    mw, mh := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)     // matrix width & height
+    sw, sh := mw*b, mh*b                                                                // SVG width & height
+
+    if i.IdenticonOptions.Border {
+        bw = b/3
+        ip = b
+        sw += bw*2+ip
+        sh += bw*2+ip
+    }
+
+    svg := fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d" shape-rendering="crispEdges">`, sw, sh, sw, sh)
+    if i.IdenticonOptions.Border {
+        svg += fmt.Sprintf(`<rect width="%d" height="%d" stroke="black" stroke-width="%d" fill-opacity="0" />`, sw, sh, 2*bw)
+    }
+
+    for r:=0; r<mh; r++ {
+        svg += "<g>"
+        for c:=0; c<mw; c++ {
+            if i.Matrix[r][c] == 1 {
+                svg += fmt.Sprintf(`<rect width="%d" height="%d" x="%d" y="%d" />`, b, b, (c*b)+bw+(ip/2), (r*b)+bw+(ip/2))
+            }
+        }
+        svg += "</g>"
+    }
+    svg += "</svg>"
+    
+    save := handle_save_path(path, i.Text)
+    f, _ := os.Create(save); defer f.Close()
+    f.WriteString(svg)
+}
