@@ -3,6 +3,7 @@ package godenticon
 import (
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -88,34 +89,42 @@ type IdenticonIF interface {
 }
 
 
-func handle_save_path(path, t string) (save string) {
+// Creates and sanitizes the saving path. Creates directory if necessary.
+// path : the entire path passed as a string,
+// dt : default text to be appended always,
+// ext : extension of the file, including the '.' (i.e.: ext = ".svg" | ".png")
+func handle_save_path(path, dt, ext string) (save string) {
     d, n := filepath.Split(path)
 
-    if len(d)==0 && len(n)==0 {
-        // if no `path` was provided i.e.: path=""
-        d = "./"
-        n = t+".svg"
-    }
-
+    // check undefined directory 
+    // (i.e.: d="" OR path="" | "xyz.svg" | "abc.xyz.svg" | "abc.xyz" | "abc")
     if len(d)==0 {
         // directory is not provided with the `path`
-        // use base relative directory
+        // use relative base directory
         d = "./"
     }
 
-    if len(n)==0 || (len(n)==1 && string(n[0])==".") {
-        // file name is not provided with the `path`
-        // OR, file name is "."
-        // use `directory + Identicon.Text`
-        n = t+".svg"
-    }
+    // check undefined file name
+    // (i.e.: n="" OR path="" | "./xyz/" | "./abc/xyz/")
+    if len(n)==0 {
+        // use `default_text + extension` as file name
+        n = dt + ext
+    } else {
+        // file name is present then, sanitize it(cuz, i'm lazy & can't handle infinite 
+        // possibilites of file path :^) hence, remove alphanumeric characters with reg-ex,
+        // split with '.', join words with '_' & append `default_text` with `extension`
+        r := regexp.MustCompile("[^a-zA-Z0-9.]+")
+        p := r.ReplaceAllString(n, "")
+        fn := strings.Split(p, ".")
 
-    // file name has wrong extension
-    // i.e.: file extension is anything other than `.svg`
-    fn := strings.Split(n, ".")
-    if len(n)!=0 && fn[len(fn)-1]!="svg" {
-        // check & sanitize file extension with `.svg`
-        n = strings.Join(fn[:len(fn)-1], "_")+".svg"
+        // if last word is same as the extension
+        if fn[len(fn)-1] == ext[1:] {
+            // join every word except last word(extension)
+            n = strings.Join(fn[:len(fn)-1], "_") + "-" + dt + ext
+        } else {
+            // join every word
+            n = strings.Join(fn, "_") + "-" + dt + ext
+        }
     }
 
     os.MkdirAll(d, os.ModePerm)
