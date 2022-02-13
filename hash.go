@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"fmt"
+	"os"
 )
 
 // generates a hash with 1:1(square) aspect ratio
@@ -31,6 +32,12 @@ func (i *Identicon) wide_hashing() {
 // generate(set) Identicon.Hash suitable for wide (2:1) aspect ratios
 // and set Identicon.Width, Identicon.Height = 2, 1
 func (i *Identicon) GenerateHash() {
+    // fail-safe: if Identicon.Text is an empty string, then exit the program.
+    if len(i.Text)==0 {
+        fmt.Println("Text to make hash from, is empty. \nSet Identicon.Text before calling GenerateHash().")
+        os.Exit(1)
+    }
+
     if i.IdenticonOptions.Square {
         i.square_hashing()
     } else {
