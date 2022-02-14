@@ -1,7 +1,7 @@
 NAME=godenticon
 GITHUB_USERNAME=poseidon-code
 PROJECT=github.com/$(GITHUB_USERNAME)/$(NAME)
-VERSION=v0.2.0
+VERSION=v0.3.0
 
 
 init:

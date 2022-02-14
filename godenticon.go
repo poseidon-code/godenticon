@@ -79,6 +79,10 @@ type IdenticonIF interface {
     // to print the identicon with/without border.
     Print()
 
+    // Creates and saves an identicon as PNG image. Requires a `path` variable
+    // to be passed, as an image saving directory or name. Size of the image
+    // identicon depends on the Identicon.ImageOptions.Size property which is minimum
+    // of either width & height of the image, divided by some value.
     SaveImage(path string)
 
     // Creates and saves an identicon as SVG. Requires a `path` variable
