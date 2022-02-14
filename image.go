@@ -1,12 +1,12 @@
 package godenticon
 
 import (
+	"encoding/hex"
 	"fmt"
 	"image"
 	"image/color"
 	"image/png"
 	"os"
-	"strconv"
 )
 
 type image_dimension struct { w, h int }
@@ -29,7 +29,7 @@ func get_image_dimension(s string) (w, h int) {
         }
     } else {
         fmt.Println("Invalid image size.") 
-        fmt.Println("Image size value should be one of S, M, L & X.")
+        fmt.Println("Image size (string) value should be any one of S, M, L & X.")
         fmt.Println("i.e.: Identicon.ImageOptions.Size='X'")
         os.Exit(1)
     }
@@ -43,27 +43,14 @@ func hex_to_rgb(h string) color.Color {
         os.Exit(1)
     }
 
-    b1 := fmt.Sprintf("%s%s", string(h[0]), string(h[1]))
-    b2 := fmt.Sprintf("%s%s", string(h[2]), string(h[3]))
-    b3 := fmt.Sprintf("%s%s", string(h[4]), string(h[5]))
-
-    r, err := strconv.ParseInt(b1, 16, 64)
+    rgb, err := hex.DecodeString(h)
     if err!=nil {
-        fmt.Printf("Invalid HEX color: '%s' in '%s'\n", b1, h)
-        os.Exit(1)
-    }
-    g, err := strconv.ParseInt(b2, 16, 64)
-    if err!=nil {
-        fmt.Printf("Invalid HEX color: '%s' in '%s'\n", b2, h)
-        os.Exit(1)
-    }
-    b, err := strconv.ParseInt(b3, 16, 64)
-    if err!=nil {
-        fmt.Printf("Invalid HEX color: '%s' in '%s'\n", b3, h)
+        fmt.Println("Invalid HEX color :", h)
+        fmt.Println(err)
         os.Exit(1)
     }
 
-    return color.RGBA{uint8(r), uint8(g), uint8(b), 255}
+    return color.RGBA{rgb[0], rgb[1], rgb[2], 255}
 }
 
 
@@ -84,7 +71,7 @@ func (i *Identicon) SaveImage(path string) {
     // set background
     for x:=0; x<iw; x++ {for y:=0; y<ih; y++ {img.Set(x, y, bg)}}
 
-    // centering coordinates (offsets)
+    // centering identicon coordinates (offsets)
     ox := (iw/2) - (mw*b/2)
     oy := (ih/2) - (mh*b/2)
 
