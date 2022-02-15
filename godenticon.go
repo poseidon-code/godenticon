@@ -1,6 +1,7 @@
 package godenticon
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -91,45 +92,63 @@ type IdenticonIF interface {
 }
 
 
+// Creates a default saving path from the OSs' User Home directory.
+// i.e.: path = $USERHOME/Pictures ($USERHOME is specific to different OSs)
+func default_save_path() string {
+    home_dir, _ := os.UserHomeDir()
+    path := filepath.Join(home_dir, "Pictures")
+    if err := os.MkdirAll(path, os.ModePerm); err!=nil {
+        fmt.Println("Error creating the default save directory.\n", err)
+        os.Exit(1)
+    }
+    return path
+}
+
+
 // Creates and sanitizes the saving path. Creates directory if necessary.
 // path : the entire path passed as a string,
-// dt : default text to be appended always,
-// ext : extension of the file, including the '.' (i.e.: ext = ".svg" | ".png")
+// dt   : default text to be appended always,
+// ext  : extension of the file, including the '.' (i.e.: ext = ".svg" | ".png")
 func handle_save_path(path, dt, ext string) (save string) {
-    d, n := filepath.Split(path)
-
-    // check undefined directory 
-    // (i.e.: d="" OR path="" | "xyz.svg" | "abc.xyz.svg" | "abc.xyz" | "abc")
-    if len(d)==0 {
-        // directory is not provided with the `path`
-        // use relative base directory
-        d = "./"
-    }
-
-    // check undefined file name
-    // (i.e.: n="" OR path="" | "./xyz/" | "./abc/xyz/")
-    if len(n)==0 {
-        // use `default_text + extension` as file name
-        n = dt + ext
+    if len(path)==0 {
+        save = default_save_path()
     } else {
-        // file name is present then, sanitize it(cuz, i'm lazy & can't handle infinite 
-        // possibilites of file path :^) hence, remove alphanumeric characters with reg-ex,
-        // split with '.', join words with '_' & append `default_text` with `extension`
-        r := regexp.MustCompile("[^a-zA-Z0-9.]+")
-        p := r.ReplaceAllString(n, "")
-        fn := strings.Split(p, ".")
-
-        // if last word is same as the extension
-        if fn[len(fn)-1] == ext[1:] {
-            // join every word except last word(extension)
-            n = strings.Join(fn[:len(fn)-1], "_") + "-" + dt + ext
-        } else {
-            // join every word
-            n = strings.Join(fn, "_") + "-" + dt + ext
+        d, n := filepath.Split(path)
+    
+        // check undefined directory 
+        // (i.e.: d="" OR path="" | "xyz.svg" | "abc.xyz.svg" | "abc.xyz" | "abc")
+        if len(d)==0 {
+            // directory is not provided with the `path`
+            // use relative base directory
+            d = filepath.Join(".", "/")
         }
+    
+        // check undefined file name
+        // (i.e.: n="" OR path="" | "./xyz/" | "./abc/xyz/")
+        if len(n)==0 {
+            // use `default_text + extension` as file name
+            n = dt + ext
+        } else {
+            // file name is present then, sanitize it(cuz, i'm lazy & can't handle infinite 
+            // possibilites of file path :^) hence, remove alphanumeric characters with reg-ex,
+            // split with '.', join words with '_' & append `default_text` with `extension`
+            r := regexp.MustCompile("[^a-zA-Z0-9.]+")
+            p := r.ReplaceAllString(n, "")
+            fn := strings.Split(p, ".")
+    
+            // if last word is same as the extension
+            if fn[len(fn)-1] == ext[1:] {
+                // join every word except last word(extension)
+                n = strings.Join(fn[:len(fn)-1], "_") + "-" + dt + ext
+            } else {
+                // join every word
+                n = strings.Join(fn, "_") + "-" + dt + ext
+            }
+        }
+    
+        os.MkdirAll(d, os.ModePerm)
+        save = d+n
     }
 
-    os.MkdirAll(d, os.ModePerm)
-    save = d+n
     return save
 }

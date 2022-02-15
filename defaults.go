@@ -1,15 +1,5 @@
 package godenticon
 
-import (
-	"fmt"
-	"os"
-)
-
-func default_save_directory() string {
-    home_dir, _ := os.UserHomeDir()
-    return fmt.Sprintf("%s/Pictures", home_dir)
-}
-
 var IdenticonDefaultOptions = IdenticonConfiguration{
     Size:       6,
     Square:     false,
