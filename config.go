@@ -45,16 +45,9 @@ func (o *IdenticonConfiguration) CheckConfiguration() {
 func (o *ImageConfiguration) CheckConfiguration() {
     if o.Size!="S" && o.Size!="M" && o.Size!="L" && o.Size!="X" {
         fmt.Println("Invalid image size :", o.Size)
-        fmt.Println("Image size can be one of S, M, L & X")
+        fmt.Println("Image size value (string) should be any one of S, M, L & X")
+        fmt.Println("i.e.: Identicon.ImageOptions.Size='X'")
         os.Exit(1)
-    }
-
-    if _, err := os.Stat(o.SaveDir); err!=nil {
-        if os.IsNotExist(err) {
-            fmt.Println("Invalid saving directory :", o.SaveDir)
-            fmt.Println("Directory doesn't exists")
-            os.Exit(1)
-        }
     }
 
     if len(o.FG)!=6 || len(o.BG)!=6 {

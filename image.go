@@ -28,7 +28,7 @@ func get_image_dimension(s string) (w, h int) {
             return dx.w, dx.h
         }
     } else {
-        fmt.Println("Invalid image size.") 
+        fmt.Println("Invalid image size:", s)
         fmt.Println("Image size (string) value should be any one of S, M, L & X.")
         fmt.Println("i.e.: Identicon.ImageOptions.Size='X'")
         os.Exit(1)
@@ -111,7 +111,7 @@ func (i *Identicon) SaveImage(path string) {
         }
     }
 
-    
+
     save := handle_save_path(path, i.Text, ".png")
     f, _ := os.Create(save); defer f.Close()
     png.Encode(f, img)

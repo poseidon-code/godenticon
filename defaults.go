@@ -21,8 +21,6 @@ var IdenticonDefaultOptions = IdenticonConfiguration{
 
 var ImageDefaultOptions = ImageConfiguration{
     Size:       "L",
-    Save:       false,
-    SaveDir:    default_save_directory(),
     Portrait:   false,
     FG:         "6dff24",
     BG:         "0b2100",

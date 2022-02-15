@@ -27,8 +27,6 @@ type IdenticonConfiguration struct {
 
 type ImageConfiguration struct {
     Size        string      `json:"image-size"`         // saves image with given resolution preset (S,M,L,X)
-    Save        bool        `json:"save"`               // save the identicon as an image with default image options
-    SaveDir     string      `json:"save-dir"`           // saves image to the specified directory
     Portrait    bool        `json:"image-portrait"`     // saves image with portrait dimensions
     FG          string      `json:"fg"`                 // sets image's foreground color
     BG          string      `json:"bg"`                 // sets image's background color
