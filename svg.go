@@ -14,8 +14,8 @@ func (i *Identicon) SaveSVG(path string) {
     bw  := 0        // border(stroke) width(thickness)
     ip  := 0        // identicon padding (when using border)
 
-    mw, mh := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)     // matrix width & height
-    sw, sh := mw*b, mh*b                                                                // SVG width & height
+    mw, mh := len(i.Matrix[0]), len(i.Matrix)     // matrix width & height
+    sw, sh := mw*b, mh*b                          // SVG width & height
 
     if i.IdenticonOptions.Border {
         bw = b/3
