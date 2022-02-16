@@ -5,7 +5,7 @@ import gi "github.com/poseidon-code/godenticon"
 func main() {
     var i gi.Identicon
 
-    o := gi.IdenticonConfiguration{
+    identicon_o := gi.IdenticonConfiguration{
         Size: 7,
         Square: false,
         Border: true,
@@ -13,12 +13,22 @@ func main() {
         Invert: false,
         Symmetric: true,
     }
-    o.CheckConfiguration()
+    identicon_o.CheckConfiguration()
 
-    i.IdenticonOptions = o
-    i.Text = "direct usage example"
+    image_o := gi.ImageConfiguration{
+        Size: "L",
+        Portrait: false,
+        FG: "61ff26",
+        BG: "091c02",
+    }
+
+    i.IdenticonOptions = identicon_o
+    i.ImageOptions = image_o
+    i.Text = "direct"
 
     i.GenerateHash()
     i.GenerateMatrix()
     i.Print()
+    i.SaveImage("./example.png")
+    i.SaveSVG("./example.svg")
 }
