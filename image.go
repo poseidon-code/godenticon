@@ -112,8 +112,8 @@ func (i *Identicon) SaveImage(path string) {
 
     // set border
     if i.IdenticonOptions.Border {
-        xs, ys := ox-(3*bw), oy-(3*bw)
-        xe, ye := mw*b+ox+(3*bw), mh*b+oy+(3*bw)
+        xs, ys := ox-(3*bw),        oy-(3*bw)
+        xe, ye := ox+(mw*b)+(3*bw), oy+(mh*b)+(3*bw)
     
         br := [][]int{
             {xs,    xe,     ys,     ys+bw},
