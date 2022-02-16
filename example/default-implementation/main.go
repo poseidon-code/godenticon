@@ -6,9 +6,11 @@ func main() {
     var i gi.Identicon
     
     i.UseDefaultConfiguration()
-    i.Text = "default options example"
+    i.Text = "defaults"
 
     i.GenerateHash()
     i.GenerateMatrix()
     i.Print()
+    i.SaveImage("./example.png")
+    i.SaveSVG("./example.svg")
 }
