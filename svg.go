@@ -10,7 +10,7 @@ import (
 // identicon depends on the Cell Size of every block in the identicon,
 // which is currently hardcoded to 100 units.
 func (i *Identicon) SaveSVG(path string) {
-    b   := 100      // identicon block size
+    b   := 10       // identicon block size
     bw  := 0        // border(stroke) width(thickness)
     ip  := 0        // identicon padding (when using border)
 
