@@ -15,6 +15,7 @@ var dm = image_dimension{2560, 1440}
 var dl = image_dimension{3840, 2160}
 var dx = image_dimension{7680, 4320}
 
+// get appropriate image dimensions from size string
 func get_image_dimension(s string) (w, h int) {
     if s=="S" || s=="M" || s=="L" || s=="X" {
         switch s {
@@ -37,6 +38,7 @@ func get_image_dimension(s string) (w, h int) {
     return -1, -1
 }
 
+// HEX color to RGB color conversion
 func hex_to_rgb(h string) color.Color {
     if len(h)!=6 {
         fmt.Println("Color should be in HEX format of length 6 (range: '000000' to 'ffffff')")
@@ -53,16 +55,48 @@ func hex_to_rgb(h string) color.Color {
     return color.RGBA{rgb[0], rgb[1], rgb[2], 255}
 }
 
+// appropriate cell-size `b` calculation
+func get_block_size(iw, ih, mw, mh int, p, v bool) (bs int) {
+    if p && v {
+        bs = ih/5/mh
+    } else if p && !v {
+        bs = ih/10/mh
+    } else if !p && v {
+        bs = ih/3/mh
+    } else {
+        bs = ih/6/mh
+    }
+
+    return bs
+}
+
+// appropriate border-width `bw` calculation
+func get_border_width(mw, mh, bs int) (bw int) {
+    if mh==4 || mw==4 {
+        bw = bs/4
+    } else if mh<=6 || mw<=6 {
+        bw = bs/3
+    } else {
+        bw = bs/2
+    }
+
+    return bw
+}
+
 
 func (i *Identicon) SaveImage(path string) {
     mw, mh := len(i.Matrix[0]), len(i.Matrix)               // matrix width(#columns) & height(#rows)
     iw, ih := get_image_dimension(i.ImageOptions.Size)      // image width & height (in pixels)
 
-    // TODO: handle portrait image
+    // handle portrait image
+    if i.ImageOptions.Portrait {
+        iw, ih = ih, iw
+    }
 
-    // TODO: appropriate cell-size `b` calculations
-    b := ih/6/mh        // identicon cell size (in pixels)
-    bw := b/2           // border thickness (border width)
+    // identicon cell size (in pixels)
+    b := get_block_size(iw, ih, mw, mh, i.ImageOptions.Portrait, i.IdenticonOptions.Vertical)
+    // border thickness (border width)
+    bw := get_border_width(mw, mh, b)
     
     img := image.NewRGBA(image.Rect(0,0,iw,ih))     // image canvas
     fg := hex_to_rgb(i.ImageOptions.FG)             // image foreground color
