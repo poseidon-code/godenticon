@@ -24,8 +24,6 @@ func main() {
      */
     img_opts := g.ImageConfiguration{
         Size: "X",
-        Save: true,
-        SaveDir: "/path/to/directory/",
         Portrait: false,
         FG: "6dff24",
         BG: "0b2100",
@@ -60,4 +58,10 @@ func main() {
 
     // 8. Print the matrix to the terminal
     identicon.Print()
+
+    // 9. Save an Image of that identicon
+    identicon.SaveImage("./example.png")
+
+    // 9(OR). Save a SVG of that identicon
+    identicon.SaveSVG("./example.svg")
 }
