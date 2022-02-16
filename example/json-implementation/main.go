@@ -7,9 +7,11 @@ func main() {
 
     i.ReadConfiguration("./example-config.json")
 
-    i.Text = "json config example"
+    i.Text = "json"
 
     i.GenerateHash()
     i.GenerateMatrix()
     i.Print()
+    i.SaveImage("./example.png")
+    i.SaveSVG("./eaxmple.svg")
 }
