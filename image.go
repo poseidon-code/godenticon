@@ -84,6 +84,10 @@ func get_border_width(mw, mh, bs int) (bw int) {
 }
 
 
+// Creates and saves an identicon as PNG image. Requires a `path` variable
+// to be passed, as an image saving directory or name. Size of the image
+// identicon depends on the Identicon.ImageOptions.Size property which is minimum
+// of either width & height of the image, divided by some value.
 func (i *Identicon) SaveImage(path string) {
     mw, mh := len(i.Matrix[0]), len(i.Matrix)               // matrix width(#columns) & height(#rows)
     iw, ih := get_image_dimension(i.ImageOptions.Size)      // image width & height (in pixels)
