@@ -13,7 +13,7 @@ func fill_cell(a, x, y int) int {
 // generates a symmetrically filled matrix
 // i.e.: vertically half of the matrix is mirror opposite of other half
 func (i *Identicon) generate_symmetric_matrix(bit_0, bit_1 int) {
-    w, h := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)
+    w, h := (i.width*i.IdenticonOptions.Size), (i.height*i.IdenticonOptions.Size)
     m := make([][]int, h)
     for r:=0; r<h; r++ {m[r] = make([]int, w)}
 
@@ -32,7 +32,7 @@ func (i *Identicon) generate_symmetric_matrix(bit_0, bit_1 int) {
 
 // generates an asymmetrically filled matrix
 func (i *Identicon) generate_asymmetric_matrix(bit_0, bit_1 int) {
-    w, h := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)
+    w, h := (i.width*i.IdenticonOptions.Size), (i.height*i.IdenticonOptions.Size)
     m := make([][]int, h)
     for r:=0; r<h; r++ {m[r] = make([]int, w)}
 

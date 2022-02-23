@@ -12,7 +12,7 @@ type Identicon struct {
     ImageOptions            ImageConfiguration
     Text                    string
     Hash                    string
-    Width, Height           int
+    width, height           int
     Matrix                  [][]int
 }
 
@@ -55,10 +55,10 @@ type IdenticonIF interface {
     // 
     // if: Identicon.IdenticonOptions.Square == TRUE, then
     // generate(set) Identicon.Hash suitable for square (1:1) aspect ratios
-    // and set Identicon.Width, Identicon.Height = 1, 1
+    // and set Identicon.width, Identicon.height = 1, 1
     // else:
     // generate(set) Identicon.Hash suitable for wide (2:1) aspect ratios
-    // and set Identicon.Width, Identicon.Height = 2, 1
+    // and set Identicon.width, Identicon.height = 2, 1
     GenerateHash()
 
     // Sets Identicon.Matrix based on some Identicon.IdenticonOptions.

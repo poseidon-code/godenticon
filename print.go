@@ -6,7 +6,7 @@ import "fmt"
 // Identicon.IdenticonOptions.Border (bool) is used to determine whether
 // to print the identicon with/without border.
 func (i *Identicon) Print() {
-    w, h := (i.Width*i.IdenticonOptions.Size), (i.Height*i.IdenticonOptions.Size)
+    w, h := len(i.Matrix[0]), len(i.Matrix)
     m := i.Matrix
     
     if i.IdenticonOptions.Border {
