@@ -15,26 +15,20 @@ func (i *Identicon) Print() {
         for r:=0; r<h; r++ {
             for c:=0; c<w; c++ {
                 if r==0 {
-                    if c==0 {
-                        fmt.Print("⎡")
-                    } else if c==w-1 {
-                        fmt.Print("⎤")
+                    if c==0 || c==w-1 {
+                        fmt.Print("█")
                     } else {
-                        fmt.Print("⎺⎺")
+                        fmt.Print("▀▀")
                     }
                 } else if r==h-1 {
-                    if c==0 {
-                        fmt.Print("⎣")
-                    } else if c==w-1 {
-                        fmt.Print("⎦")
+                    if c==0 || c==w-1 {
+                        fmt.Print("█")
                     } else {
-                        fmt.Print("__")
+                        fmt.Print("▄▄")
                     }
                 } else {
-                    if c==0 {
-                        fmt.Print("⎢")
-                    } else if c==w-1 {
-                        fmt.Print("⎥")
+                    if c==0 || c==w-1 {
+                        fmt.Print("█")
                     } else if c==1 || c==w-2 {
                         fmt.Print("  ")
                     } else {
