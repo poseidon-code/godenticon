@@ -2,10 +2,10 @@ package godenticon
 
 import (
 	"encoding/hex"
-	"fmt"
 	"image"
 	"image/color"
 	"image/png"
+	"log"
 	"os"
 )
 
@@ -29,10 +29,11 @@ func get_image_dimension(s string) (w, h int) {
             return dx.w, dx.h
         }
     } else {
-        fmt.Println("Invalid image size:", s)
-        fmt.Println("Image size (string) value should be any one of S, M, L & X.")
-        fmt.Println("i.e.: Identicon.ImageOptions.Size='X'")
-        os.Exit(1)
+        log.Fatalln(
+            "Invalid image size:", s, 
+            "\nImage size (string) value should be any one of S, M, L & X.",
+            "\ni.e.: Identicon.ImageOptions.Size='X'",
+        )
     }
 
     return -1, -1
@@ -41,21 +42,18 @@ func get_image_dimension(s string) (w, h int) {
 // HEX color to RGB color conversion
 func hex_to_rgb(h string) color.Color {
     if len(h)!=6 {
-        fmt.Println("Color should be in HEX format of length 6 (range: '000000' to 'ffffff')")
-        os.Exit(1)
+        log.Fatalln("Color should be in HEX format of length 6 (range: '000000' to 'ffffff')")
     }
 
     rgb, err := hex.DecodeString(h)
     if err!=nil {
-        fmt.Println("Invalid HEX color :", h)
-        fmt.Println(err)
-        os.Exit(1)
+        log.Fatalln("Invalid HEX color :", h, "\n", err)
     }
 
     return color.RGBA{rgb[0], rgb[1], rgb[2], 255}
 }
 
-// appropriate cell-size `b` calculation
+// appropriate block-size `bs` calculation
 func get_block_size(iw, ih, mw, mh int, p, v bool) (bs int) {
     if p && v {
         bs = ih/5/mh
