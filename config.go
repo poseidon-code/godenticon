@@ -2,8 +2,8 @@ package godenticon
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 )
 
@@ -13,9 +13,11 @@ import (
 func (i *Identicon) ReadConfiguration(path string) {
     f, err := os.Open(path)
     if err!=nil {
-        fmt.Println("Invalid config file path :", path)
         f.Close()
-        os.Exit(1)
+        log.Fatalln("Invalid config file path :", path)
+    }
+    if f.Name()[len(f.Name())-5:]!=".json" {
+        log.Fatalln("Inavalid config file :", f.Name(), "(required a .json file)")
     }
     b, _ := ioutil.ReadAll(f)
     f.Close()
@@ -35,31 +37,34 @@ func (i *Identicon) ReadConfiguration(path string) {
 // Checks Identicon.IdenticonOptions for errors
 func (o *IdenticonConfiguration) CheckConfiguration() {
     if o.Size<4 || o.Size>8 {
-        fmt.Println("Invalid identicon size :", o.Size)
-        fmt.Println("Size must lie between 4 to 8 (inclusive)")
-        os.Exit(1)
+        log.Fatalln(
+            "Invalid identicon size :", o.Size,
+            "\nSize must lie between 4 to 8 (inclusive)",
+        )
     }
 }
 
 // Checks Identicon.ImageOptions for errors
 func (o *ImageConfiguration) CheckConfiguration() {
     if o.Size!="S" && o.Size!="M" && o.Size!="L" && o.Size!="X" {
-        fmt.Println("Invalid image size :", o.Size)
-        fmt.Println("Image size value (string) should be any one of S, M, L & X")
-        fmt.Println("i.e.: Identicon.ImageOptions.Size='X'")
-        os.Exit(1)
+        log.Fatalln(
+            "Invalid image size :", o.Size,
+            "\nImage size value (string) should be any one of S, M, L & X",
+            "\ni.e.: Identicon.ImageOptions.Size='X'",
+        )
     }
 
     if len(o.FG)!=6 || len(o.BG)!=6 {
         if len(o.FG)!=6 {
-            fmt.Println("Invalid foreground color :", o.FG)
+            log.Println("Invalid foreground color :", o.FG)
         }
         if len(o.BG)!=6 {
-            fmt.Println("Invalid background color :", o.BG)
+            log.Println("Invalid background color :", o.BG)
         }
-        fmt.Println("Colors must be in HEX format string of length 6 (range: '000000' to 'ffffff')")
-        fmt.Println("e.g.: 'ff0044'(correct) | 'f04'(wrong) | 'ff55aa00'(wrong)")
-        os.Exit(1)
+        log.Fatalln(
+            "Colors must be in HEX format string of length 6 (range: '000000' to 'ffffff')",
+            "\ne.g.: 'ff0044'(correct) | 'f04'(wrong) | 'ff55aa00'(wrong)",
+        )
     }
 }
 
