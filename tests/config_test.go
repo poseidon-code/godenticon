@@ -44,7 +44,7 @@ func TestReadConfiguration(t *testing.T) {
 // require testing.
 // The IdenticonOptions.Size must lie between 4 to 8 (inclusive),
 // where float like 4.0, 5.0,... etc. gets implicitly type casted to int.
-func TestCheckIdenticonConfiguration(t *testing.T) {
+func TestCheckIdenticonOptions(t *testing.T) {
 	sizes := []int{
 		// PASSED
 		4.0,   	// implicit type casted
