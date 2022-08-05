@@ -11,7 +11,9 @@ import (
 // if NOT then exit the program, else set configuration options to the values
 // of that of the config file.
 // Invalid keys are omitted and invalid values are handled in CheckConfiguration(),
-// if invalid values are found the exit program with error
+// if invalid values are found then exit program with error
+//
+// ~ (i *Identicon) ReadConfiguration(path string)
 func TestReadConfiguration(t *testing.T) {
 	path := []string{
 		// PASSED
@@ -44,6 +46,8 @@ func TestReadConfiguration(t *testing.T) {
 // require testing.
 // The IdenticonOptions.Size must lie between 4 to 8 (inclusive),
 // where float like 4.0, 5.0,... etc. gets implicitly type casted to int.
+// 
+// ~ (o *IdenticonConfiguration) CheckConfiguration()
 func TestCheckIdenticonOptions(t *testing.T) {
 	sizes := []int{
 		// PASSED
@@ -81,6 +85,8 @@ func TestCheckIdenticonOptions(t *testing.T) {
 // of characters other than in the range '000000' to 'ffffff'. It accepts
 // only 6 characters which can be either of lowercase or uppercase.
 // The Portrait option doesn't requires checking as it is of bool type.
+// 
+// ~ (o *ImageConfiguration) CheckConfiguration()
 func TestCheckImageOptions(t *testing.T) {
 	sizes := []string{
 		// PASSED
