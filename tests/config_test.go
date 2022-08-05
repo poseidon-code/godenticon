@@ -73,3 +73,76 @@ func TestCheckIdenticonOptions(t *testing.T) {
 
 	t.Log(o)
 }
+
+// Testing the ImageOptions, here the valid Sizes are "S", "M", "L", "X",
+// all in uppercase and everything else is invalid.
+// Both the foreground (FG) & background (BG) colors are checked against 
+// reular expression `^[a-fA-F0-9]{6}$` which discards any combinations
+// of characters other than in the range '000000' to 'ffffff'. It accepts
+// only 6 characters which can be either of lowercase or uppercase.
+// The Portrait option doesn't requires checking as it is of bool type.
+func TestCheckImageOptions(t *testing.T) {
+	sizes := []string{
+		// PASSED
+		"S",
+		"M",
+		"L",
+		"X",
+
+		// FAILED
+		// "",
+		// "  ",
+		// "/",
+		// "\\",
+		// "s",
+		// "m",
+		// "l",
+		// "x",
+		// "smlx",
+		// "SMLX",
+		// "a",
+		// "abc",
+	}
+
+	colors := []string{
+		// PASSED
+		"000000",
+		"FFFFFF",
+		"abcdef",
+		"012345",
+		"678901",
+		"012edf",
+		
+		// FAILED (invalid strings as per regex : `^[a-fA-F0-9]{6}$`)
+		// "",
+		// "1",
+		// "22",
+		// "333",
+		// "4444",
+		// "55555",
+		// "g",
+		// "      ",
+		// "______",
+		// "ccc",
+		// "hjk",
+		// "hjklio",
+		// "fffffff",
+	}
+
+	var i g.Identicon
+	o := i.ImageOptions
+
+	for _, s := range sizes {
+		o.BG, o.FG = "ffffff", "000000" 	// temporary colors
+		o.Size = s
+		o.CheckConfiguration()
+	}
+
+	for _, c := range colors {
+		o.Size = "S"	// temporary size
+		o.BG, o.FG = c, c
+		o.CheckConfiguration()
+	}
+
+	t.Log(o)
+}
