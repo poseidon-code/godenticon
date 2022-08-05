@@ -41,15 +41,7 @@ func get_image_dimension(s string) (w, h int) {
 
 // HEX color to RGB color conversion
 func hex_to_rgb(h string) color.Color {
-    if len(h)!=6 {
-        log.Fatalln("Color should be in HEX format of length 6 (range: '000000' to 'ffffff')")
-    }
-
-    rgb, err := hex.DecodeString(h)
-    if err!=nil {
-        log.Fatalln("Invalid HEX color :", h, "\n", err)
-    }
-
+    rgb, _ := hex.DecodeString(h)
     return color.RGBA{rgb[0], rgb[1], rgb[2], 255}
 }
 

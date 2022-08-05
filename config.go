@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 )
 
 // Read, Check & Set configurations from a JSON config file.
@@ -54,13 +55,13 @@ func (o *ImageConfiguration) CheckConfiguration() {
         )
     }
 
-    if len(o.FG)!=6 || len(o.BG)!=6 {
-        if len(o.FG)!=6 {
-            log.Println("Invalid foreground color :", o.FG)
-        }
-        if len(o.BG)!=6 {
-            log.Println("Invalid background color :", o.BG)
-        }
+    r, _ := regexp.Compile(`^[a-fA-F0-9]{6}$`)
+    fg_ok := r.MatchString(o.FG)
+    bg_ok := r.MatchString(o.BG)
+    
+    if !fg_ok || !bg_ok {
+        if !fg_ok { log.Println("Invalid foreground color :", o.FG) }
+        if !bg_ok { log.Println("Invalid background color :", o.BG) }
         log.Fatalln(
             "Colors must be in HEX format string of length 6 (range: '000000' to 'ffffff')",
             "\ne.g.: 'ff0044'(correct) | 'f04'(wrong) | 'ff55aa00'(wrong)",
