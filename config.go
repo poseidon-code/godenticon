@@ -2,7 +2,7 @@ package godenticon
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"regexp"
@@ -20,7 +20,7 @@ func (i *Identicon) ReadConfiguration(path string) {
     if f.Name()[len(f.Name())-5:]!=".json" {
         log.Fatalln("Inavalid config file :", f.Name(), "(required a .json file)")
     }
-    b, _ := ioutil.ReadAll(f)
+    b, _ := io.ReadAll(f)
     f.Close()
 
     identicon_o := IdenticonDefaultOptions
