@@ -140,7 +140,7 @@ func (i *Identicon) SaveImage(path string) {
     }
 
 
-    save := handle_save_path(path, i.Text, "png")
+    save := handleSavePath(path, "png")
     f, _ := os.Create(save); defer f.Close()
     png.Encode(f, img)
 }

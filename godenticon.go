@@ -2,9 +2,12 @@ package godenticon
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
+	"time"
 )
 
 type Identicon struct {
@@ -93,53 +96,31 @@ type IdenticonIF interface {
 
 // Creates and sanitizes the saving path. Creates directory if necessary.
 // path : the entire path passed as a string,
-// dt   : default text to be appended always,
-// ext  : extension of the file, including the '.' (i.e.: ext = ".svg" | ".png")
-func handle_save_path(path, dt, ext string) (save string) {
-    d, n := filepath.Split(path)
-
-    r, _ := regexp.Compile("[^a-zA-Z0-9_-]+")
+// ext  : extension of the file
+func handleSavePath(path, ext string) (save string) {
+	d, n := filepath.Split(path)
+	r, _ := regexp.Compile("[^a-zA-Z0-9_-]+")
+	
+	// remove extension & sanitise file name
+	n = strings.Split(n,".")[0]
     n = r.ReplaceAllString(n, "")
-    if n=="" {
-        n = dt + "." + ext
-    } else {
-        n = n[:len(n)-3] + "." + ext
-    }
 
+	// set default save file name
+    if n=="" {n = fmt.Sprintf("%x", time.Now().UTC().UnixNano())}
 
-    if d=="" {
-        // when path is empty string, use default directory
-        h, err := os.UserHomeDir()
-        if err!=nil {
-            fmt.Println(err)
-            os.Exit(1)
-        }
+	// set default save directory
+	if d=="" {
+		h, err := os.UserHomeDir()
+		if err!=nil {log.Fatalln(err)}
+		d = filepath.Join(h, "Pictures")
+	}
 
-        d = filepath.Join(h, "Pictures")
+	// create directory if passed directory doesn't exits
+	_, err := os.Stat(d)
+	if os.IsNotExist(err) {
+		os.MkdirAll(d, os.ModePerm)
+	}
 
-        _, err = os.Stat(d)
-        if err!=nil {
-            if os.IsNotExist(err) {
-                os.MkdirAll(d, os.ModePerm)
-            } else {
-                os.Exit(1)
-            }
-        }
-
-        save = filepath.Join(d, n)
-    } else {
-        // when directory doesn't exists OR current working directory
-        _, err := os.Stat(d)
-        if err!=nil {
-            if os.IsNotExist(err) {
-                os.MkdirAll(d, os.ModePerm)
-            } else {
-                os.Exit(1)
-            }
-        }
-
-        save = filepath.Join(d, n)
-    }
-
-    return save
+	save = filepath.Join(d, n + "." + ext)
+	return save
 }

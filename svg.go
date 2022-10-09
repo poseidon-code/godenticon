@@ -40,7 +40,7 @@ func (i *Identicon) SaveSVG(path string) {
     }
     svg += "</svg>"
     
-    save := handle_save_path(path, i.Text, "svg")
+    save := handleSavePath(path, "svg")
     f, _ := os.Create(save); defer f.Close()
     f.WriteString(svg)
 }
