@@ -15,7 +15,7 @@ func main() {
 	i.CheckConfiguration()
 	i.GenerateHash()
 	i.GenerateMatrix()
+	i.Print()
 	i.SaveImage("./tests/run/run_image.png")
 	i.SaveSVG("./tests/run/run_svg.svg")
-	i.Print()
 }

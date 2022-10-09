@@ -122,5 +122,6 @@ func handleSavePath(path, ext string) (save string) {
 	}
 
 	save = filepath.Join(d, n + "." + ext)
+	fmt.Println("Saved to:", save)
 	return save
 }
