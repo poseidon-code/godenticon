@@ -1,3 +1,3 @@
 module github.com/poseidon-code/godenticon
 
-go 1.18
+go 1.19
