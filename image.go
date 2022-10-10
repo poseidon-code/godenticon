@@ -46,15 +46,20 @@ func hex_to_rgb(h string) color.Color {
 }
 
 // appropriate block-size `bs` calculation
-func get_block_size(iw, ih, mw, mh int, p, v bool) (bs int) {
-    if p && v {
-        bs = ih/5/mh
-    } else if p && !v {
-        bs = ih/10/mh
-    } else if !p && v {
-        bs = ih/3/mh
+func getBlockSize(imageFactor, matrixFactor int, s, p, v bool) (bs int) {
+    factor := imageFactor/matrixFactor
+
+    if s {
+        if p { bs = factor/10
+        } else { bs = factor/5 }
     } else {
-        bs = ih/6/mh
+        if p {
+            if v { bs = factor/5
+            } else { bs = factor/10 }
+        } else {
+            if v { bs = factor/3
+            } else { bs = factor/6 }
+        }
     }
 
     return bs
@@ -88,9 +93,9 @@ func (i *Identicon) SaveImage(path string) {
     }
 
     // identicon cell size (in pixels)
-    b := get_block_size(iw, ih, mw, mh, i.ImageOptions.Portrait, i.IdenticonOptions.Vertical)
+    bs := getBlockSize(ih, mh, i.IdenticonOptions.Square, i.ImageOptions.Portrait, i.IdenticonOptions.Vertical)
     // border thickness (border width)
-    bw := get_border_width(mw, mh, b)
+    bw := get_border_width(mw, mh, bs)
     
     img := image.NewRGBA(image.Rect(0,0,iw,ih))     // image canvas
     fg := hex_to_rgb(i.ImageOptions.FG)             // image foreground color
@@ -100,14 +105,14 @@ func (i *Identicon) SaveImage(path string) {
     for x:=0; x<iw; x++ {for y:=0; y<ih; y++ {img.Set(x, y, bg)}}
 
     // centering identicon coordinates (offsets)
-    ox := (iw/2) - (mw*b/2)
-    oy := (ih/2) - (mh*b/2)
+    ox := (iw/2) - (mw*bs/2)
+    oy := (ih/2) - (mh*bs/2)
 
 
     // set border
     if i.IdenticonOptions.Border {
         xs, ys := ox-(3*bw),        oy-(3*bw)
-        xe, ye := ox+(mw*b)+(3*bw), oy+(mh*b)+(3*bw)
+        xe, ye := ox+(mw*bs)+(3*bw), oy+(mh*bs)+(3*bw)
     
         br := [][]int{
             {xs,    xe,     ys,     ys+bw},
@@ -130,8 +135,8 @@ func (i *Identicon) SaveImage(path string) {
     for r:=0; r<mh; r++ {
         for c:=0; c<mw; c++ {
             if i.Matrix[r][c] == 1 {
-                for x:=(ox+(c*b)); x<(ox+(c*b))+b; x++ {
-                    for y:=(oy+(r*b)); y<(oy+(r*b))+b; y++ {
+                for x:=(ox+(c*bs)); x<(ox+(c*bs))+bs; x++ {
+                    for y:=(oy+(r*bs)); y<(oy+(r*bs))+bs; y++ {
                         img.Set(x, y, fg)
                     }
                 }
