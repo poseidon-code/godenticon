@@ -10,16 +10,16 @@ import (
 // identicon depends on the Cell Size of every block in the identicon,
 // which is currently hardcoded to 100 units.
 func (i *Identicon) SaveSVG(path string) {
-    b   := 10       // identicon block size
+    bs  := 10       // identicon block size
     bw  := 0        // border(stroke) width(thickness)
     ip  := 0        // identicon padding (when using border)
 
-    mw, mh := len(i.Matrix[0]), len(i.Matrix)     // matrix width & height
-    sw, sh := mw*b, mh*b                          // SVG width & height
+    mw, mh := len(i.Matrix[0]), len(i.Matrix)       // matrix width & height
+    sw, sh := mw*bs, mh*bs                          // SVG width & height
 
     if i.IdenticonOptions.Border {
-        bw = b/3
-        ip = b
+        bw = bs/3
+        ip = bs
         sw += bw*2+ip
         sh += bw*2+ip
     }
@@ -33,7 +33,7 @@ func (i *Identicon) SaveSVG(path string) {
         svg += "<g>"
         for c:=0; c<mw; c++ {
             if i.Matrix[r][c] == 1 {
-                svg += fmt.Sprintf(`<rect width="%d" height="%d" x="%d" y="%d" />`, b, b, (c*b)+bw+(ip/2), (r*b)+bw+(ip/2))
+                svg += fmt.Sprintf(`<rect width="%d" height="%d" x="%d" y="%d" />`, bs, bs, (c*bs)+bw+(ip/2), (r*bs)+bw+(ip/2))
             }
         }
         svg += "</g>"
