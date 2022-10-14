@@ -1,3 +1,4 @@
 tests/run/*.png
 tests/run/*.svg
 tests/image_test/*.png
+tests/svg_test/*.svg
