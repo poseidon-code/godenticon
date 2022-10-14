@@ -1,4 +1,4 @@
-package godenticon
+package godenticon_test
 
 import (
 	"fmt"
@@ -7,41 +7,12 @@ import (
 	g "github.com/poseidon-code/godenticon"
 )
 
-
-type testIdenticonConfiguration struct {
-    Size        []int
-    Square      []bool
-    Border      []bool
-    Vertical    []bool
-    Invert      []bool
-    Symmetric   []bool
-}
-var tIC = testIdenticonConfiguration{
-    Size:       []int{4,5,6,7,8},
-    Square:     []bool{true, false},
-    Border:     []bool{true, false},
-    Vertical:   []bool{true, false},
-    Invert:     []bool{true, false},
-    Symmetric:  []bool{true, false},
-}
-
-
-type testImageConfiguration struct {
-    Size        []string
-    Portrait    []bool
-    FG          []string
-    BG          []string
-}
-var tImC = testImageConfiguration{
-    Size:       []string{"S", "M", "L", "X"},
-    Portrait:   []bool{true, false},
-    FG:         []string{"03fcba"},
-    BG:         []string{"013225"},
-}
-
 // Test for generation of images for all possible configurations
 // of identicon options and image options.
 // All possible combinations includes 1280 files.
+//
+// NOTE : tIC & tImC declared in godenticon_test.go (required to be included
+// when running : go test -v ./tests/image_test.go ./tests/godenticon_test.go)
 func TestSaveImage(t *testing.T) {
     var i g.Identicon
     var identiconOptions g.IdenticonConfiguration
