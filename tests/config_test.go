@@ -1,4 +1,4 @@
-package godenticon
+package godenticon_test
 
 import (
 	"testing"
