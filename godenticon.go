@@ -94,6 +94,25 @@ type IdenticonIF interface {
 }
 
 
+// Handles all the intermediate steps for generating an identicon from 
+// Identicon configuration. It requires to have the Identicon configuration
+// (Identicon, ImageConfiguration, IdenticonConfiguration) options to be set.
+// Typically used for programmatically generating identicons.
+// Chainable to allow New().SaveImage() & New().SaveSVG().
+func (i *Identicon) New() *Identicon {
+    i.CheckConfiguration()
+    if i.Hash=="" {
+        i.GenerateHash()
+    } else {
+        i.CheckHash()
+    }
+    i.GenerateMatrix()
+    i.Print()
+
+    return i
+}
+
+
 // Creates and sanitizes the saving path. Creates directory if necessary.
 // path : the entire path passed as a string,
 // ext  : extension of the file
