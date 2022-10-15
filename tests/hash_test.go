@@ -50,9 +50,9 @@ func TestGenerateHash(t *testing.T) {
 func TestCheckHash(t *testing.T) {
     var hashes = []string{
         // PASSED
-        fmt.Sprintf("%x", sha256.Sum256([]byte(""))), // 64
-        fmt.Sprintf("%x", sha512.Sum512_256([]byte(""))), // 64
-        fmt.Sprintf("%x", sha512.Sum512([]byte(""))), // 128
+        fmt.Sprintf("%x", sha256.Sum256([]byte(""))), // 64 (fails when IdenticonConfiguration.Square == false)
+        fmt.Sprintf("%x", sha512.Sum512_256([]byte(""))), // 64 (fails when IdenticonConfiguration.Square == false)
+        fmt.Sprintf("%x", sha512.Sum512([]byte(""))), // 128 (fails when IdenticonConfiguration.Square == true)
 
         // FAILED
         // fmt.Sprintf("%x", sha512.Sum384([]byte(""))), // 96 (>64 & <128)

@@ -64,9 +64,15 @@ func (i *Identicon) GenerateHash() {
 // set Identicon.width, Identicon.height = 2, 1
 func (i *Identicon) CheckHash() {
     if len(i.Hash)==64 {
+        if !i.IdenticonOptions.Square {
+            log.Fatalf("Cannot use hash of length (%d) for generating non-square identicon \nHash must be of 128 characters long\n", len(i.Hash))
+        }
         i.width = 1
         i.height = 1
     } else if len(i.Hash)==128 {
+        if i.IdenticonOptions.Square {
+            log.Fatalf("Cannot use hash of length (%d) for generating square identicon \nHash must be of 64 characters long\n", len(i.Hash))
+        }
         i.width = 2
         i.height = 1
         if i.IdenticonOptions.Vertical {
