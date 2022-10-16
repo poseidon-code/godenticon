@@ -1,5 +1,5 @@
 // This example is a pipeline like implementation for generating identicons
-// using JSON configuration file. All the steps are arranged specifically
+// using JSON configuration file. All the steps are arranged specifically,
 // numbered intentionally as it is and are in ordered for the program to
 // work correctly. The `./example/json-implementation/example.png` &
 // `./example/json-implementation/example.svg` are both generated from this
@@ -7,7 +7,7 @@
 //
 // This example program works (and only compatible) with Go 1.18 and above
 // due to the usage of Go workspaces. Open the root project and run like :
-// `go run ./example/all-implementations.go`
+// go run ./example/json-implementation/main.go
 //
 // To run this example independently:
 // 1. Copy this example file & `example-config.json` file to some directory
