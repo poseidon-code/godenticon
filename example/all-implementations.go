@@ -1,12 +1,13 @@
 // This example is a pipeline like implementation for generating identicons
-// programatically. All the steps are arranged specifically and are in ordered
-// for the program to work correctly. This example is an overall intendented
-// use of this package `godenticon`. The `./example/example.png` &
-// `./example/example.svg` are both generated from this example program.
+// programatically. All the steps are arranged specifically, numbered intentionally
+// as it is and are in ordered for the program to work correctly.
+// This example is an overall intendent use of this package `godenticon`.
+// The `./example/example.png` & `./example/example.svg` are both generated
+// from this example program.
 //
 // This example program works (and only compatible) with Go 1.18 and above
 // due to the usage of Go workspaces. Open the root project and run like :
-// `go run ./example/all-implementations.go`
+// go run ./example/all-implementations.go
 //
 // To run this example independently:
 // 1. Copy this example file & `example-config.json` file to some directory
@@ -89,6 +90,6 @@ func main() {
     // 9. Save an Image of that identicon
     identicon.SaveImage("./example/example.png")
 
-    // 9(OR). Save a SVG of that identicon
+    // 9. Save a SVG of that identicon
     identicon.SaveSVG("./example/example.svg")
 }
