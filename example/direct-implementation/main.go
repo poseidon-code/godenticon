@@ -39,7 +39,7 @@ func main() {
 
 
     // 2. Create an Identicon instance
-    i := g.Identicon{
+    identicon := g.Identicon{
         IdenticonOptions: identiconOptions,     // required
         ImageOptions: imageOptions,             // required
         Text: "godenticon",                     // required (optional if Hash is provided)
@@ -47,6 +47,6 @@ func main() {
     }
 
     // 3. Use Identicon.New() to perform all the steps in the pipeline
-    i.New().SaveImage("./example/direct-implementation/example.png")
-    i.SaveSVG("./example/direct-implementation/example.svg")
+    identicon.New().SaveImage("./example/direct-implementation/example.png")
+    identicon.SaveSVG("./example/direct-implementation/example.svg")
 }
