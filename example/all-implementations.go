@@ -1,3 +1,19 @@
+// This example is a pipeline like implementation for generating identicons
+// programatically. All the steps are arranged specifically and are in ordered
+// for the program to work correctly. This example is an overall intendented
+// use of this package `godenticon`. The `./example/example.png` &
+// `./example/example.svg` are both generated from this example program.
+//
+// This example program works (and only compatible) with Go 1.18 and above
+// due to the usage of Go workspaces. Open the root project and run like :
+// `go run ./example/all-implementations.go`
+//
+// To run this example independently:
+// 1. Copy this example file & `example-config.json` file to some directory
+// 2. Create go.mod file        : go mod init project_name
+// 3. Install dependencies      : go get github.com/poseidon-code/godenticon
+// 4. Run the program           : go run ./all-implementations.go
+
 package main
 
 import (
@@ -9,7 +25,7 @@ func main() {
     var identicon g.Identicon
 
     // 2. Create IdenticonConfiguration & ImageConfiguration
-    idn_opts := g.IdenticonConfiguration{
+    identiconOptions := g.IdenticonConfiguration{
         Size: 8,
         Border: false,
         Square: false,
@@ -18,11 +34,7 @@ func main() {
         Symmetric: true,
     } // all fields are compulsory
 
-    /* Image options are not yet implemented, hence all 
-     * identicon.ImageOptions related variables & assignments
-     * are commented.
-     */
-    img_opts := g.ImageConfiguration{
+    imageOptions := g.ImageConfiguration{
         Size: "X",
         Portrait: false,
         FG: "6dff24",
@@ -30,28 +42,43 @@ func main() {
     } // all fields are compulsory
 
     // 2(OR). Read, Check and Set a JSON configuration file
-    identicon.ReadConfiguration("./example-config.json")
+    // identicon.ReadConfiguration("./example-config.json")
 
     // 3. Check configuration (compulsory)
     // (NOTE: JSON configuration will be automatically checked)
-    idn_opts.CheckConfiguration()
-    img_opts.CheckConfiguration()
+    // identiconOptions.CheckConfiguration()
+    // imageOptions.CheckConfiguration()
 
     // 4. Set identicon with Identicon & Image configurations
     // (NOTE: JSON configuration will be automatically set)
-    identicon.IdenticonOptions = idn_opts
-    identicon.ImageOptions = img_opts
+    identicon.IdenticonOptions = identiconOptions
+    identicon.ImageOptions = imageOptions
+
+    // 3(OR). Check entire identicon configuration if both
+    // identicon.IdenticonOptions & identicon.ImageOptions
+    // are already set
+    identicon.CheckConfiguration()
     
-    // 4(OR). use default configuration, i.e.:
-    identicon.IdenticonOptions = g.IdenticonDefaultOptions
-    identicon.ImageOptions = g.ImageDefaultOptions
+    // 4(OR). use (set) default configuration
+    // identicon.IdenticonOptions = g.IdenticonDefaultOptions
+    // identicon.ImageOptions = g.ImageDefaultOptions
+    
+    // 4(OR). use (call & set) default configuration
+    // identicon.UseDefaultConfiguration()
 
     // 5. Set the Text to be made into an identicon
     identicon.Text = "godenticon"
 
+    // 5(OR). Set the Hash to be made into identicon
+    // (NOTE: Hash must be of 64/128 characters long)
+    // identicon.Hash = "2b0ff8c83f4a9c83f4a921d36ce9ce47d0d13c5d85f21d36ce9ce47d0d13c5d8"
+
     // 6. Generate Hash which sets identicon.Hash and both the 
-    // identicon.Width & identicon.Height aspect ratio values
+    // identicon.width & identicon.height aspect ratio values
     identicon.GenerateHash()
+
+    // 6(OR). Check Hash if manually setting the identicon.Hash
+    // identicon.CheckHash()
 
     // 7. Generate Matrix which sets identicon.Matrix
     identicon.GenerateMatrix()
@@ -60,8 +87,8 @@ func main() {
     identicon.Print()
 
     // 9. Save an Image of that identicon
-    identicon.SaveImage("./example.png")
+    identicon.SaveImage("./example/example.png")
 
     // 9(OR). Save a SVG of that identicon
-    identicon.SaveSVG("./example.svg")
+    identicon.SaveSVG("./example/example.svg")
 }
