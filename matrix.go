@@ -1,8 +1,7 @@
 package godenticon
 
 import (
-	"fmt"
-	"os"
+	"log"
 )
 
 // decides on putting 0/1 in every cell of matrix
@@ -60,8 +59,10 @@ func (i *Identicon) generate_asymmetric_matrix(bit_0, bit_1 int) {
 func (i *Identicon) GenerateMatrix() {
     // fail-safe: if Identicon.Hash is an empty string, then exit the program.
     if len(i.Hash)==0 {
-        fmt.Println("Hash to make identicon matrix from, is empty. \nSet Identicon.Hash (use GenerateHash()) before calling GenerateMatrix().")
-        os.Exit(1)
+        log.Fatalln(
+            "Hash to make identicon matrix from, is empty.",
+            "\nSet Identicon.Hash (use GenerateHash()) before calling GenerateMatrix().",
+        )
     }
 
     // bits for matrix cell filling
