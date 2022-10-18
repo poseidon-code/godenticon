@@ -1,7 +1,7 @@
 NAME=godenticon
 GITHUB_USERNAME=poseidon-code
 PROJECT=github.com/$(GITHUB_USERNAME)/$(NAME)
-VERSION=v1.2.0
+VERSION=1.2.0
 
 
 init:
@@ -23,6 +23,6 @@ tidy:
 
 
 publish:
-	git tag $(VERSION)
-	git push origin $(VERSION)
-	GOPROXY=proxy.golang.org go list -m $(PROJECT)@$(VERSION)
+	git tag v$(VERSION)
+	git push origin v$(VERSION)
+	GOPROXY=proxy.golang.org go list -m $(PROJECT)@v$(VERSION)
