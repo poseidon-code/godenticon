@@ -1,7 +1,7 @@
 // This example is a pipeline like implementation for generating identicons
 // programatically. All the steps are arranged specifically, numbered intentionally
 // as it is and are in ordered for the program to work correctly.
-// This example is an overall intendent use of this package `godenticon`.
+// This example is an overall intended use of this package `godenticon`.
 // The `./example/example.png` & `./example/example.svg` are both generated
 // from this example program.
 //

@@ -41,7 +41,7 @@ func useNew() {
 }
 
 
-// Using intendent pipeline like usage to generate identicons.
+// Using intended pipeline like usage to generate identicons.
 // Typically used to have granular control on every step of 
 // generating identicons (e.g. using as a CLI like program)
 func usePipeline() {
