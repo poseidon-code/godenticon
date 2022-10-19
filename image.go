@@ -84,7 +84,7 @@ func get_border_width(mw, mh, bs int) (bw int) {
 // identicon depends on the Identicon.ImageOptions.Size property which is minimum
 // of either width & height of the image, divided by some value.
 func (i *Identicon) SaveImage(path string) {
-    mw, mh := len(i.Matrix[0]), len(i.Matrix)               // matrix width(#columns) & height(#rows)
+    mw, mh := len(i.matrix[0]), len(i.matrix)               // matrix width(#columns) & height(#rows)
     iw, ih := get_image_dimension(i.ImageOptions.Size)      // image width & height (in pixels)
 
     // handle portrait image
@@ -134,7 +134,7 @@ func (i *Identicon) SaveImage(path string) {
     // set identicon blocks
     for r:=0; r<mh; r++ {
         for c:=0; c<mw; c++ {
-            if i.Matrix[r][c] == 1 {
+            if i.matrix[r][c] == 1 {
                 for x:=(ox+(c*bs)); x<(ox+(c*bs))+bs; x++ {
                     for y:=(oy+(r*bs)); y<(oy+(r*bs))+bs; y++ {
                         img.Set(x, y, fg)

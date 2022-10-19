@@ -16,7 +16,7 @@ type Identicon struct {
     Text                    string
     Hash                    string
     width, height           int
-    Matrix                  [][]int
+    matrix                  [][]int
 }
 
 type IdenticonConfiguration struct {

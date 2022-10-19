@@ -26,7 +26,7 @@ func (i *Identicon) generate_symmetric_matrix(bit_0, bit_1 int) {
         }
     }
 
-    i.Matrix = m
+    i.matrix = m
 }
 
 // generates an asymmetrically filled matrix
@@ -44,7 +44,7 @@ func (i *Identicon) generate_asymmetric_matrix(bit_0, bit_1 int) {
         }
     }
 
-    i.Matrix = m
+    i.matrix = m
 }
 
 // Sets Identicon.Matrix based on some Identicon.IdenticonOptions.
